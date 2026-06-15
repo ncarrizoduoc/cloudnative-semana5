@@ -67,6 +67,7 @@ public class InscripcionController {
         return ResponseEntity.created(location).body(creado);
     }
 
+    // Crear inscripcion y retornar un archivo de texto descargable con resumen de inscripcion
     @PostMapping("/download")
     public ResponseEntity<ByteArrayResource> registrarYDescargarInscripcion(@Valid @RequestBody InscripcionRequest request){
         Inscripcion inscripcion = mapperRequest.toInscripcion(request);
