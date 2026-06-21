@@ -17,6 +17,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Paso 1.6: Crea application.yml
+      - name: Create application.yml
+        run: |
+          mkdir -p src/main/resources
+          cat <<EOF > src/main/resources/application.yml
+          cloud:
+            aws:
+              credentials:
+                access-key: ${{ secrets.AWS_ACCESS_KEY_ID}}
+                secret-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+              region:
+                static: ${{ secrets.REGION }}
+              stack:
+                auto: false
+          EOF
+
       # Paso 2: Autenticar en DockerHub
       - name: Log in to DockerHub
         uses: docker/login-action@v2
