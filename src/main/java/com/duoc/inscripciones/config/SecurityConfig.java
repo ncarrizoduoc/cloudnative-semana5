@@ -21,15 +21,21 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // Este metodo define un Bean que se encarga de extraer el JWT desde
+    // la cabecera Authorization. Elimina el prefijo Bearer si esta presente
     @Bean
     public BearerTokenResolver customTokenResolver(){
         return request -> {
+            // Se obtiene el contenido de la cabecera Authorization
             String authHeader = request.getHeader("Authorization");
 
+            // Si no hay cabecera Authorization, retorna null
             if(authHeader == null || authHeader.isBlank()){
                 return null;
             }
 
+            // Si el prefijo Bearer esta presente, lo elimina y retorna el token.
+            // Si no esta presente, retorna el token contenido en la cabecera
             if(authHeader.regionMatches(true, 0, "Bearer ", 0, 7)){
                 return authHeader.substring(7).trim();
             }
